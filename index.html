@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cranleigh Lockdown</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            transition: background-color 1s ease-in-out;
+        }
+        #countdown {
+            font-size: 2em;
+            margin: 20px;
+        }
+        #lockdownMessage {
+            font-size: 2em;
+            margin: 20px;
+            color: #ffffff;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<h1 id="lockdownHeader">Lockdown is coming</h1>
+<div id="countdown"></div>
+<div id="lockdownMessage" style="color:#fff;">LOCKDOWN</div>
+
+<script>
+    // Function to update the countdown
+    function updateCountdown() {
+        const currentTime = new Date();
+        const targetTime = new Date(currentTime);
+
+        // Set target time to 10 AM today
+        targetTime.setHours(10, 0, 0, 0);
+
+        // Calculate the time difference
+        let timeDiff = targetTime - currentTime;
+        let hours = Math.floor(timeDiff / (1000 * 60 * 60));
+        let minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+        // Display the countdown
+        document.getElementById('countdown').innerHTML = `${hours}h ${minutes}m ${seconds}s`;
+
+        // If the countdown reaches 0, trigger lockdown
+        if (timeDiff <= 0) {
+            document.body.style.backgroundColor = '#ff0000'; // Red background
+            document.getElementById('lockdownMessage').style.display = 'block';
+            document.getElementById('lockdownHeader').innerHTML = 'Lockdown is here!';
+            document.getElementById('countdown').style.display = 'none';
+            clearInterval(countdownInterval);
+        }
+    }
+
+    // Update the countdown every second
+    const countdownInterval = setInterval(updateCountdown, 1000);
+
+    // Initial update
+    updateCountdown();
+</script>
+</body>
+</html>
