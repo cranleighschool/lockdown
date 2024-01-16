@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dangerous Minds Countdown</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            overflow: hidden;
+            /*display: flex;*/
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #000;
+        }
+
+        #countdown {
+            clear: both;
+            display: block;
+            font-size: 40em;
+            color: #fff;
+            text-align: center;
+            width: 100%;
+        }
+
+        #myProgress {
+            display: block;
+            width: 100%;
+            background-color: #000;
+        }
+
+        #myBar {
+            width: 0%;
+            height: 100px;
+            background-color: #4CAF50;
+        }
+    </style>
+</head>
+<body id="body">
+<div id="myProgress">
+    <div id="myBar"></div>
+</div>
+<br/>
+<div id="countdown">8:00</div>
+
+<script>
+    // Set the countdown time in seconds
+    let countdownTime = 8 * 60; // 8 minutes
+
+    function updateProgressBar() {
+        const progressBar = document.getElementById("myBar");
+        const durationInSeconds = countdownTime;
+        const updateInterval = durationInSeconds * 1000 / 100; // 100 steps
+
+        let currentProgress = 0;
+        const progressInterval = setInterval(function () {
+            currentProgress++;
+            progressBar.style.width = currentProgress + "%";
+
+            if (currentProgress == 100) {
+                clearInterval(progressInterval);
+            }
+        }, updateInterval);
+    }
+
+    updateProgressBar();
+
+
+    // Call the updateCountdown function every second (1000 milliseconds)
+    const intervalId = setInterval(updateCountdown, 1000);
+
+    function updateCountdown() {
+        const minutes = Math.floor(countdownTime / 60);
+        const seconds = countdownTime % 60;
+
+        // Format minutes and seconds with leading zeros if needed
+        const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
+        const formattedSeconds = seconds < 10 ? "0" + seconds : seconds;
+
+        // Display the countdown in the HTML element with id "countdown"
+        document.getElementById("countdown").innerText = formattedMinutes + ":" + formattedSeconds;
+
+        // Decrement the countdown time
+        countdownTime--;
+
+        if (countdownTime < 30) {
+            document.getElementById("body").style.backgroundColor = "#ffbf00";
+        }
+        if (countdownTime < 15) {
+            document.getElementById("body").style.backgroundColor = "#d21f3c";
+        }
+        if (countdownTime < 10 && countdownTime % 2) {
+            document.getElementById("body").style.backgroundColor = "#b22222";
+        }
+        // Check if the countdown has reached zero
+        if (countdownTime < 0) {
+            clearInterval(intervalId);
+            document.getElementById("body").style.backgroundColor = "#d21f3c";
+        }
+
+    }
+</script>
+
+</body>
+</html>
